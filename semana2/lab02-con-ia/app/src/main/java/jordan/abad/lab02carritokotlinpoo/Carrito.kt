@@ -1,5 +1,7 @@
 package jordan.abad.lab02carritokotlinpoo
 
+class Cliente(val nombre: String)
+
 class Producto(
     val nombre: String,
     val precio: Double,
@@ -20,7 +22,6 @@ class CalculadoraIGV : ComponenteFinanciero() {
     }
 }
 
-// Otra clase que hereda de la misma clase abstracta, con su propia logica
 class CalculadoraDescuento : ComponenteFinanciero() {
     override fun calcular(base: Double): Double {
         return when {
@@ -31,7 +32,7 @@ class CalculadoraDescuento : ComponenteFinanciero() {
     }
 }
 
-class Carrito(private val cliente: String) {
+class Carrito(private val cliente: Cliente) {
 
     private val productos = mutableListOf<Producto>()
     private val calculadoraIGV = CalculadoraIGV()
@@ -46,7 +47,7 @@ class Carrito(private val cliente: String) {
         return productos
     }
 
-    fun obtenerCliente(): String {
+    fun obtenerCliente(): Cliente {
         return cliente
     }
 
@@ -103,9 +104,10 @@ fun main() {
     println("   CARRITO DE COMPRAS - TIENDA TECSUP   ")
     println("=========================================")
 
-    val carrito = Carrito("Jordan Abad Mejia")
+    val cliente = Cliente("Jordan Abad Mejia")
+    val carrito = Carrito(cliente)
 
-    println("Cliente: ${carrito.obtenerCliente()}")
+    println("Cliente: ${carrito.obtenerCliente().nombre}")
     println()
 
     carrito.agregarProducto(Producto("Laptop HP", 2500.0, 1))
@@ -143,5 +145,5 @@ fun main() {
     }
     println("TOTAL CON DESCUENTO    : S/ " + "%.2f".format(totalConDescuento))
     println()
-    println("Gracias por su compra, ${carrito.obtenerCliente()}!")
+    println("Gracias por su compra, ${carrito.obtenerCliente().nombre}!")
 }
