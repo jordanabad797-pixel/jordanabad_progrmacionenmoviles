@@ -10,8 +10,6 @@ class Producto(
     }
 }
 
-// Clase abstracta: define QUE se debe calcular, pero no COMO.
-// Cada clase hija implementa su propia lógica.
 abstract class ComponenteFinanciero {
     abstract fun calcular(base: Double): Double
 }
@@ -40,6 +38,10 @@ class Carrito(private val cliente: String) {
         return cliente
     }
 
+    fun obtenerCantidadProductos(): Int {
+        return productos.size
+    }
+
     fun calcularSubtotal(): Double {
         var subtotal = 0.0
         for (p in productos) {
@@ -54,6 +56,22 @@ class Carrito(private val cliente: String) {
 
     fun calcularTotal(): Double {
         return calcularSubtotal() + calcularIGV()
+    }
+
+    // Método propio de la clase Carrito: muestra el detalle con columnas alineadas
+    fun mostrarDetalle() {
+        println("---------- DETALLE DEL CARRITO ----------")
+        var i = 1
+        for (p in productos) {
+            println(
+                String.format(
+                    "%d. %-20s x%d  S/ %8.2f",
+                    i, p.nombre, p.cantidad, p.calcularImporte()
+                )
+            )
+            i++
+        }
+        println("-------------------------------------------")
     }
 }
 
@@ -73,11 +91,14 @@ fun main() {
     carrito.agregarProducto(Producto("USB Kingston 64GB", 25.0, 3))
     println()
 
+    carrito.mostrarDetalle()
+    println("Cantidad de productos : ${carrito.obtenerCantidadProductos()}")
+
     val subtotal = carrito.calcularSubtotal()
     val igv = carrito.calcularIGV()
     val total = carrito.calcularTotal()
 
-    println("Subtotal : S/ " + "%.2f".format(subtotal))
-    println("IGV (18%): S/ " + "%.2f".format(igv))
-    println("TOTAL    : S/ " + "%.2f".format(total))
+    println("Subtotal     : S/ " + "%.2f".format(subtotal))
+    println("IGV (18%)    : S/ " + "%.2f".format(igv))
+    println("TOTAL A PAGAR: S/ " + "%.2f".format(total))
 }
