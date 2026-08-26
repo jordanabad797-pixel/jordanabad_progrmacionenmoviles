@@ -99,21 +99,44 @@ class Carrito(private val cliente: Cliente) {
     }
 }
 
+fun leerTexto(mensaje: String): String {
+    print(mensaje)
+    return readLine()?.trim() ?: ""
+}
+
+fun leerDouble(mensaje: String): Double {
+    print(mensaje)
+    val entrada = readLine()?.trim() ?: "0"
+    return entrada.toDoubleOrNull() ?: 0.0
+}
+
+fun leerInt(mensaje: String): Int {
+    print(mensaje)
+    val entrada = readLine()?.trim() ?: "0"
+    return entrada.toIntOrNull() ?: 0
+}
+
 fun main() {
     println("=========================================")
     println("   CARRITO DE COMPRAS - TIENDA TECSUP   ")
     println("=========================================")
 
-    val cliente = Cliente("Jordan Abad Mejia")
+    val nombreCliente = leerTexto("Ingrese el nombre del cliente: ")
+    val cliente = Cliente(nombreCliente)
     val carrito = Carrito(cliente)
 
     println("Cliente: ${carrito.obtenerCliente().nombre}")
     println()
 
-    carrito.agregarProducto(Producto("Laptop HP", 2500.0, 1))
-    carrito.agregarProducto(Producto("Mouse Logitech", 45.5, 2))
-    carrito.agregarProducto(Producto("Audifonos Sony", 120.0, 1))
-    carrito.agregarProducto(Producto("USB Kingston 64GB", 25.0, 3))
+    val cantidadProductos = leerInt("Cuantos productos desea agregar? ")
+
+    for (i in 1..cantidadProductos) {
+        println("--- Producto $i ---")
+        val nombreProducto = leerTexto("Nombre del producto: ")
+        val precioProducto = leerDouble("Precio del producto: ")
+        val cantidadProducto = leerInt("Cantidad: ")
+        carrito.agregarProducto(Producto(nombreProducto, precioProducto, cantidadProducto))
+    }
     println()
 
     carrito.mostrarDetalle()
