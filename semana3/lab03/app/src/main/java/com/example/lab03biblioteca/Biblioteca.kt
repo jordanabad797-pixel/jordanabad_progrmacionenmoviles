@@ -1,7 +1,7 @@
 package com.example.biblioteca
 
 import java.time.LocalDate
-import java.time.temporal.ChronoUnit
+import java.time.format.DateTimeFormatter
 
 abstract class Usuario(val nombre: String) {
     abstract fun obtenerMultaDiaria(): Double
@@ -37,7 +37,7 @@ class Libro(
 ) {
     fun calcularDiasAtraso(): Long {
         val entrega = fechaEntrega ?: return 0
-        val dias = ChronoUnit.DAYS.between(fechaDevolucion, entrega)
+        val dias = java.time.temporal.ChronoUnit.DAYS.between(fechaDevolucion, entrega)
         return if (dias > 0) dias else 0
     }
 
@@ -77,25 +77,73 @@ class Libro(
     }
 }
 
+val formatoFecha: DateTimeFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+fun leerTexto(mensaje: String): String {
+    print(mensaje)
+    return readLine()?.trim() ?: ""
+}
+
+fun leerFecha(mensaje: String): LocalDate {
+    while (true) {
+        print(mensaje)
+        val entrada = readLine()?.trim() ?: ""
+        try {
+            return LocalDate.parse(entrada, formatoFecha)
+        } catch (e: Exception) {
+            println("Formato invalido. Usa dd/MM/yyyy, ejemplo: 14/10/2026")
+        }
+    }
+}
+
+fun leerTipoUsuario(): Int {
+    while (true) {
+        println("Tipo de usuario:")
+        println("1. Docente")
+        println("2. Alumno")
+        print("Elige una opcion (1 o 2): ")
+        val entrada = readLine()?.trim() ?: ""
+        if (entrada == "1" || entrada == "2") {
+            return entrada.toInt()
+        }
+        println("Opcion invalida, intenta de nuevo.")
+    }
+}
+
 fun main() {
     println("=========================================")
     println("   SISTEMA DE PRESTAMO DE LIBROS - TECSUP   ")
     println("=========================================")
 
-    val alumno = Alumno("Jordan Abad Mejia")
-    val libro = Libro(
-        titulo = "Kotlin para principiantes",
-        usuario = alumno,
-        fechaPrestamo = LocalDate.of(2026, 10, 14),
-        fechaDevolucion = LocalDate.of(2026, 10, 17),
-        fechaEntrega = LocalDate.of(2026, 10, 21)
-    )
+    val titulo = leerTexto("Titulo del libro: ")
+    val nombreUsuario = leerTexto("Nombre del usuario: ")
+    val opcionTipo = leerTipoUsuario()
 
+    val usuario: Usuario = if (opcionTipo == 1) {
+        Docente(nombreUsuario)
+    } else {
+        Alumno(nombreUsuario)
+    }
+
+    val fechaPrestamo = leerFecha("Fecha de prestamo (dd/MM/yyyy): ")
+    val fechaDevolucion = leerFecha("Fecha de devolucion pactada (dd/MM/yyyy): ")
+
+    val entregado = leerTexto("Ya se entrego el libro? (si/no): ").lowercase()
+    val fechaEntrega: LocalDate? = if (entregado == "si") {
+        leerFecha("Fecha real de entrega (dd/MM/yyyy): ")
+    } else {
+        null
+    }
+
+    val libro = Libro(titulo, usuario, fechaPrestamo, fechaDevolucion, fechaEntrega)
+
+    println()
+    println("---------- DATOS DEL PRESTAMO ----------")
     println("Titulo: ${libro.titulo}")
     println("Usuario: ${libro.usuario.nombre} (${libro.usuario.obtenerTipo()})")
-    println("Fecha prestamo: ${libro.fechaPrestamo}")
-    println("Fecha devolucion: ${libro.fechaDevolucion}")
-    println("Fecha entrega: ${libro.fechaEntrega}")
+    println("Fecha prestamo: ${libro.fechaPrestamo.format(formatoFecha)}")
+    println("Fecha devolucion: ${libro.fechaDevolucion.format(formatoFecha)}")
+    println("Fecha entrega: ${libro.fechaEntrega?.format(formatoFecha) ?: "No entregado"}")
     println("Estado: ${libro.obtenerEstado()}")
     println()
 
