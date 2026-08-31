@@ -52,6 +52,29 @@ class Libro(
             else -> "Entregado"
         }
     }
+
+    fun mostrarReporteAtraso() {
+        val diasAtraso = calcularDiasAtraso()
+        if (diasAtraso == 0L) {
+            println("No hay dias de atraso que reportar.")
+            return
+        }
+
+        println(String.format("%-4s %-12s %-12s %-12s", "Dia", "Fecha", "Multa/Dia", "Acumulado"))
+        var acumulado = 0.0
+        val multaDiaria = usuario.obtenerMultaDiaria()
+
+        for (i in 1..diasAtraso) {
+            val fechaDelDia = fechaDevolucion.plusDays(i)
+            acumulado += multaDiaria
+            println(
+                String.format(
+                    "%-4d %-12s S/ %-9.2f S/ %-9.2f",
+                    i, fechaDelDia, multaDiaria, acumulado
+                )
+            )
+        }
+    }
 }
 
 fun main() {
@@ -74,7 +97,10 @@ fun main() {
     println("Fecha devolucion: ${libro.fechaDevolucion}")
     println("Fecha entrega: ${libro.fechaEntrega}")
     println("Estado: ${libro.obtenerEstado()}")
-    println("Dias de atraso: ${libro.calcularDiasAtraso()}")
-    println("Multa diaria: S/ " + "%.2f".format(libro.usuario.obtenerMultaDiaria()))
+    println()
+
+    libro.mostrarReporteAtraso()
+    println()
+
     println("Multa total: S/ " + "%.2f".format(libro.calcularMultaTotal()))
 }
