@@ -25,6 +25,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.abad.lab03registroproducto.ui.theme.Lab03RegistroProductoTheme
 
@@ -90,7 +92,6 @@ fun PantallaRegistro(modifier: Modifier = Modifier) {
             )
         }
 
-        // Botón
         Spacer(modifier = Modifier.height(24.dp))
         Button(
             onClick = { mostrarResumen = true },
@@ -99,7 +100,6 @@ fun PantallaRegistro(modifier: Modifier = Modifier) {
             Text("AGREGAR PRODUCTO")
         }
 
-        // Card de resumen
         Spacer(modifier = Modifier.height(24.dp))
         if (mostrarResumen) {
             val precioNum = precio.toDoubleOrNull() ?: 0.0
@@ -116,13 +116,24 @@ fun PantallaRegistro(modifier: Modifier = Modifier) {
                     Text(text = nombre, style = MaterialTheme.typography.titleLarge)
                     Text(text = "Precio: S/ " + String.format("%.2f", precioNum))
                     Text(text = "Cantidad: $cantidadNum")
+                    Spacer(modifier = Modifier.height(4.dp))
                     Text(
                         text = "Importe total: S/ " + String.format("%.2f", importe),
                         style = MaterialTheme.typography.bodyLarge,
+                        fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.primary
                     )
                 }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            // Mensaje de confirmación en verde
+            Text(
+                text = "✓ Producto registrado correctamente",
+                color = Color(0xFF2E7D32),
+                style = MaterialTheme.typography.bodyMedium,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
