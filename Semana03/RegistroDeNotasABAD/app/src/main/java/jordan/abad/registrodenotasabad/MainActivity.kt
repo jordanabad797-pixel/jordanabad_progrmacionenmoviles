@@ -42,6 +42,10 @@ fun PantallaRegistroNotas(modifier: Modifier = Modifier) {
     var notaMoviles by remember { mutableFloatStateOf(0f) }
     var notaBd by remember { mutableFloatStateOf(0f) }
 
+    // Estados para Switch y Checkbox
+    var redondearPromedio by remember { mutableStateOf(false) }
+    var confirmado by remember { mutableStateOf(false) }
+
     val moradoPrincipal = Color(0xFF6750A4)
     val fondoGradient = Brush.verticalGradient(
         colors = listOf(Color(0xFFF3EDF7), Color(0xFFE8DEF8))
@@ -93,6 +97,57 @@ fun PantallaRegistroNotas(modifier: Modifier = Modifier) {
             ItemCurso(nombre = "Programación Orientada a Objetos", peso = "25%", nota = notaPoo, onNotaChange = { notaPoo = it })
             ItemCurso(nombre = "Programación en Móviles", peso = "30%", nota = notaMoviles, onNotaChange = { notaMoviles = it })
             ItemCurso(nombre = "Base de Datos", peso = "25%", nota = notaBd, onNotaChange = { notaBd = it })
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Switch: Redondear promedio final
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "Redondear promedio final", fontSize = 14.sp)
+                Switch(
+                    checked = redondearPromedio,
+                    onCheckedChange = { redondearPromedio = it }
+                )
+            }
+
+            // Checkbox: Confirmar notas
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Checkbox(
+                    checked = confirmado,
+                    onCheckedChange = { confirmado = it }
+                )
+                Text(text = "Confirmo que las notas son correctas", fontSize = 14.sp)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // Botón Calcular (deshabilitado si confirmado es false)
+            Button(
+                onClick = { /* Lógica de cálculo en el Commit 3 */ },
+                enabled = confirmado,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = moradoPrincipal
+                )
+            ) {
+                Text("CALCULAR PROMEDIO", fontWeight = FontWeight.Bold)
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Text(
+                text = "Asigna las notas y confirma para calcular",
+                color = Color.Gray,
+                fontSize = 13.sp
+            )
         }
     }
 }
