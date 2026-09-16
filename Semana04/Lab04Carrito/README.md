@@ -8,10 +8,13 @@
 ## Capturas de Pantalla
 
 ### 1. Estado Vacío del Carrito
-*(Inserta tu Captura 1)*
+<img width="1600" height="1000" alt="image" src="https://github.com/user-attachments/assets/2663ba7d-c945-45bb-a64c-e73422a366e7" />
+
+
 
 ### 2. Carrito con Productos y Totales Calculados
-*(Inserta tu Captura 2)*
+<img width="1600" height="1000" alt="image" src="https://github.com/user-attachments/assets/a317c9fa-f1da-41e3-8956-03a9a3b9eda9" />
+
 
 ---
 
