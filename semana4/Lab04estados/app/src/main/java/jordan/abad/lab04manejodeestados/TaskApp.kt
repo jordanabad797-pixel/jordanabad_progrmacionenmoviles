@@ -1,6 +1,7 @@
 package jordan.abad.lab04manejodeestados
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +26,7 @@ import androidx.compose.ui.unit.dp
 fun TaskApp() {
     var textoTarea by remember { mutableStateOf("") }
     var siguienteId by remember { mutableIntStateOf(1) }
-    val tareas = remember { mutableStateListOf<Task>() }
+    val tareas = rememberSaveable(saver = tasksSaver()) { mutableStateListOf<Task>() }
     var mensajeError by remember { mutableStateOf("") }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
