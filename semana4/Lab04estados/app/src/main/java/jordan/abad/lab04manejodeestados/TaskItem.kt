@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.style.TextDecoration
 
 @Composable
 fun TaskItem(
@@ -39,7 +40,10 @@ fun TaskItem(
                     checked = task.completed,
                     onCheckedChange = { onToggleCompleted(task.id) }
                 )
-                Text(text = task.title)
+                Text(
+                    text = task.title,
+                    textDecoration = if (task.completed) TextDecoration.LineThrough else TextDecoration.None
+                )
             }
             IconButton(onClick = { onDelete(task.id) }) {
                 Icon(Icons.Default.Delete, contentDescription = "Eliminar tarea")
