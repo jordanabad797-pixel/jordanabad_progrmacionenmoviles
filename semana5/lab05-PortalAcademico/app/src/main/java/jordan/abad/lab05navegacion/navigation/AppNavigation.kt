@@ -10,6 +10,7 @@ import jordan.abad.lab05navegacion.screens.DetailScreen
 import jordan.abad.lab05navegacion.screens.HomeScreen
 import jordan.abad.lab05navegacion.screens.ListScreen
 import jordan.abad.lab05navegacion.screens.ProfileScreen
+import jordan.abad.lab05navegacion.screens.LoginScreen
 
 // Desarrollado por: Jordan Abad
 // rememberNavController() crea y mantiene el controlador de navegación
@@ -18,11 +19,16 @@ fun AppNavigation() {
     val navController = rememberNavController()
 
     // NavHost es el contenedor del grafo de navegación
-    // startDestination = Screen.Home.route -> la app inicia en "home"
+    // startDestination = Screen.Login.route -> la app inicia en "login"
     NavHost(
         navController = navController,
-        startDestination = Screen.Home.route
+        startDestination = Screen.Login.route
     ) {
+        // Pantalla de Login inicial
+        composable(Screen.Login.route) {
+            LoginScreen(navController)
+        }
+
         // composable registra cada pantalla dentro del grafo
         composable(Screen.Home.route) {
             HomeScreen(navController)

@@ -6,6 +6,9 @@ package jordan.abad.lab05navegacion.navigation
 sealed class Screen(val route: String) {
 
     // Desarrollado por: Jordan Abad
+    // Pantalla de login - punto de entrada principal
+    object Login : Screen(route = "login")
+
     // Pantalla de inicio — punto de entrada de la app
     object Home : Screen(route = "home")
 
